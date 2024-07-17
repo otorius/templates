@@ -60,11 +60,13 @@ big_int::big_int(const big_int &a) {
 }
 
 void div2(big_int &a) {
-    int carry = 0;
+    int carry = 0, n = length(a);
     for (int i = a.val.size() - 1; i >= 0; i--) {
         int tmp = a.val[i] / 2 + carry;
         carry = a.val[i] % 2 * 5;
         a.val[i] = tmp;
+    } while (n > 1 && a.val.back() == 0) {
+        n--; a.val.pop_back();
     }
 }
 bool is_null(const big_int &a) {
@@ -129,7 +131,7 @@ bool operator<=(const big_int &a, const big_int &b) {
 big_int &operator+=(big_int &a, const big_int &b) {
     int n = length(a), m = length(b);
     if (n < m) {
-        int x = n - m;
+        int x = m - n;
         while (x--) a.val.push_back(0);
     } n = length(a);
     int tmp, carry = 0;
@@ -267,9 +269,7 @@ ostream &operator<<(ostream &out, const big_int &a) {
 big_int sqrt(big_int &a) {
     big_int l(1), r(a), ans, m, tmp;
     while (l <= r) {
-        m += l;
-        m += r;
-        div2(m);
+        m = (l + r) / 2;
         tmp = m * m;
         if (tmp <= a) {
             ans = m;
