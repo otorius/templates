@@ -20,6 +20,6 @@ struct fenwick {
     }
     
     void init() {
-        for (int i = 1; i <= maxN; i++) bit[i] = 0;
+        for (int i = 0; i < maxN; i++) bit[i] = 0;
     }
 };
