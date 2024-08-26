@@ -15,6 +15,7 @@ using namespace std;
 #define pii pair<int, int>
 #define ull unsigned long long
 #define all(x) (x).begin(),(x).end()
+#define rall(x) (x).rbegin(),(x).rend()
 
 // #define int long long
 // #define int unsigned long long
