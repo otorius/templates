@@ -26,6 +26,9 @@ public:
     friend mint operator/(const mint &a, const mint &b);
     friend mint operator^(const mint &a, const mint &b);
     
+    friend mint &operator%=(mint &a, long long &mod);
+    friend mint operator%(const mint &a, long long &mod);
+    
     friend mint inv(mint &a);
     
     friend istream &operator>>(istream &, mint &);
@@ -103,6 +106,13 @@ mint operator/(const mint &a, const mint &b) {
 }
 mint operator^(const mint &a, const mint &b) {
     mint tmp = a; tmp ^= b; return tmp;
+}
+
+mint &operator%=(mint &a, long long &mod) {
+    a.val %= mod; return a;
+}
+mint operator%(const mint &a, long long &mod) {
+    mint tmp = a; tmp %= mod; return tmp;
 }
 
 istream &operator>>(istream &in, mint &a) {
