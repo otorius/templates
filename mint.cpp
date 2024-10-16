@@ -26,8 +26,8 @@ public:
     friend mint operator/(const mint &a, const mint &b);
     friend mint operator^(const mint &a, const mint &b);
     
-    friend mint &operator%=(mint &a, long long &mod);
-    friend mint operator%(const mint &a, long long &mod);
+    friend mint &operator%=(mint &a, const long long int &mod);
+    friend mint operator%(const mint &a, const long long int &mod);
     
     friend mint inv(mint &a);
     
@@ -82,7 +82,7 @@ mint &operator*=(mint &a, const mint &b) {
     a.val = (a.val * b.val) % mod; return a;
 }
 mint &operator/=(mint &a, const mint &b) {
-    a.val = (a.val * inv(b)) % mod; return a;
+    a = (a * inv(b)) % mod; return a;
 }
 mint &operator^=(mint &a, const mint &b) {
     long long ans = 1, num = a.val, pwr = b.val;
@@ -108,10 +108,10 @@ mint operator^(const mint &a, const mint &b) {
     mint tmp = a; tmp ^= b; return tmp;
 }
 
-mint &operator%=(mint &a, long long &mod) {
-    a.val %= mod; return a;
+mint &operator%=(mint &a, const long long int &mod) {
+    a.val = (a.val % mod); return a;
 }
-mint operator%(const mint &a, long long &mod) {
+mint operator%(const mint &a, const long long int &mod) {
     mint tmp = a; tmp %= mod; return tmp;
 }
 
