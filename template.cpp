@@ -17,14 +17,14 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 #define rall(x) (x).rbegin(),(x).rend()
 
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+mt19937_64 rngl(chrono::steady_clock::now().time_since_epoch().count());
+
 // #define int long long
 // #define int unsigned long long
 
 // #define ordered_set(T) tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>
 // #define ordered_multiset(T) tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>
-
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-mt19937_64 rngl(chrono::steady_clock::now().time_since_epoch().count());
 
 void open_file(string filename) {
     freopen((filename + ".in").c_str(), "r", stdin);
