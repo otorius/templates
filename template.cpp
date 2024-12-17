@@ -26,11 +26,6 @@ mt19937_64 rngl(chrono::steady_clock::now().time_since_epoch().count());
 // #define ordered_set(T) tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>
 // #define ordered_multiset(T) tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>
 
-void open_file(string filename) {
-    freopen((filename + ".in").c_str(), "r", stdin);
-    freopen((filename + ".out").c_str(), "w", stdout);
-}
-
 // const ll mod = 1e9 + 7;
 // const ll mod = 998244353;
 
@@ -42,6 +37,10 @@ void solve() {
     
 }
 int32_t main() { 
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr); cout.tie(nullptr);
     
