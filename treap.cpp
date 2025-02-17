@@ -60,4 +60,4 @@ public:
             return -1;
         return getpos(root, pos);
     }
-} tr;
+};
