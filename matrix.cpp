@@ -1,63 +1,107 @@
-template <typename T> class matrix {
+class matrix {
 private:
     int n, m;
-    vector<vector<T>> mat;
+    vector<vector<int>> mat;
 public:
     matrix(int _n, int _m);
-    matrix(const matrix<T> &rhs);
-    virtual ~matrix();
+    matrix(const matrix &rhs);
 
-    matrix<T> &operator=(const matrix<T> &rhs);
+    matrix operator=(const matrix &rhs);
 
-    matrix<T> &operator+=(const matrix<T> &rhs);
-    matrix<T> &operator-=(const matrix<T> &rhs);
-    matrix<T> &operator*=(const matrix<T> &rhs);
-    matrix<T> &operator/=(const matrix<T> &rhs);
+    matrix &operator+=(const matrix &rhs);
+    matrix &operator-=(const matrix &rhs);
+    matrix &operator*=(const matrix &rhs);
 
-    matrix<T> operator+(const matrix<T> &rhs);
-    matrix<T> operator-(const matrix<T> &rhs);
-    matrix<T> operator*(const matrix<T> &rhs);
-    matrix<T> operator/(const matrix<T> &rhs);
+    matrix operator+(const matrix &rhs);
+    matrix operator-(const matrix &rhs);
+    matrix operator*(const matrix &rhs);
 
-    vector<T> operator*(const vector<T> &rhs);
-    vector<T> diag_vec();
+    matrix operator+(const int &rhs);
+    matrix operator-(const int &rhs);
+    matrix operator*(const int &rhs);
+    matrix operator/(const int &rhs);
+    matrix operator^(int &rhs);
 
-    T &operator()(const int &x, const int &y);
-    const T &operator()(const int &x, const int &y);
+    matrix &operator^=(int &rhs);
+    vector<int> operator*(const vector<int> &rhs);
 
-    matrix<T> transpose();
-    int get_rows() const;
-    int get_cols() const;
-}
+    int &operator()(const int &_n, const int &_m);
+    const int &operator(const int &_n, const int &_m) const;
 
-template <typename T>
-matrix<T>::matrix(int _n, int _m) {
+    int getrows() const;
+    int getcols() const;
+};
+
+matrix::matrix(int _n, int _m) {
     mat.resize(_n);
     for (int i = 0; i < _n; i++)
         mat[i].resize(_m, 0);
     n = _n; m = _m;
 }
 
-template <typename T>
-matrix<T>::matrix(const matrix<T> rhs) {
+matrix::matrix(const matrix &rhs) {
     mat = rhs.mat;
-    n = rhs.get_rows();
-    m = rhs.get_cols();
+    n = rhs.getrows();
+    m = rhs.getcols();
 }
 
-template <typename T>
-matrix<T>::~matrix(){}
-
-template <typename T>
-matrix<T> &matrix<T>::operator=(const matrix<T> &rhs) {
-    if (&rhs == this) return this;
-    int _n = rhs.get_rows();
-    int _m = rhs.get_cols();
+matrix::operator=(const matrix &rhs) {
+    int _n = rhs.getrows();
+    int _m = rhs.getcols();
     mat.resize(_n);
-    for (int i = 0; i < _n; i++)
-        mat[i].resize(_m, 0);
-    for (int i = 0; i < _n; i++)
+    for (int i = 0; i < _n; i++) {
+        mat[i].resize(_m);
         for (int j = 0; j < _m; j++)
             mat[i][j] = rhs(i, j);
-    n = _n; m = _m;
+    } n = _n; m = _m;
+    return *this;
+}
+
+matrix::operator+=(const matrix &rhs) {
+    int _n = rhs.getrows();
+    int _m = rhs.getcols();
+    for (int i = 0; i < _n; i++) {
+        for (int j = 0; j < _m; j++) {
+            (mat[i][j] += rhs(i, j)) %= mod;
+        }
+    } return *this;
+}
+
+matrix::operator-=(const matrix &rhs) {
+    int _n = rhs.getrows();
+    int _m = rhs.getcols();
+    for (int i = 0; i < _n; i++) {
+        for (int j = 0; j < _m; j++) {
+            (mat[i][j] -= rhs(i, j)) %= mod;
+        }
+    } return *this;
+}
+
+matrix::operator*=(const matrix &rhs) {
+    int _n = rhs.getrows();
+    int _m = rhs.getcols();
+    matrix mult(_n, _m);
+
+    for (int i = 0; i < _n; i++) {
+        for (int j = 0; j < _m; j++) {
+            for (int k = 0; k < _n; k++) {
+                (mult(i, j) += this -> mat[i][j] * rhs(i, j) % mod) %= mod; 
+            }
+        }
+    } (*this) = mult;
+    return *this;
+}
+
+matrix::operator^=(int &rhs) {
+    int _n = rhs.getrows();
+    int _m = rhs.getcols();
+    matrix pwr(_n, _m);
+    for (int i = 0; i < _n; i++)
+        pwr(i, i) = 1;
+    while (rhs) {
+        if (rhs & 1)
+            pwr *= (*this);
+        (*this) *= (*this);
+    } (*this) = pwr; rhs >>= 1;
+    return *this;
 }
