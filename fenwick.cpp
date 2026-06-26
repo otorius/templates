@@ -1,7 +1,12 @@
 struct fenwick {
     int n; vector<ll> bit;
 
+    fenwick() {}
     fenwick(int _n) : n(_n), bit(n + 1, 0) {}
+
+    void init(int _n) {
+        n = _n; bit.assign(n + 1, 0);
+    }
 
     void add(int x, ll d) {
         for ( ; x <= n; x += (x & -x)) bit[x] += d;
@@ -17,7 +22,7 @@ struct fenwick {
         return get(r) - get(l - 1);
     }
 
-    void init() {
+    void clear() {
         fill(bit.begin(), bit.end(), 0);
     }
 };
